@@ -11,9 +11,11 @@ class _NavBarRootsState extends State<NavBarRoots> {
   final _screens = [
     // home screen
     HomeScreen(),
-    // cart screen
+    // menu screen
     Container(),
-    // settings screen
+    // favorites screen
+    Container(),
+    // cart screen
     Container(),
   ];
 
@@ -43,12 +45,16 @@ class _NavBarRootsState extends State<NavBarRoots> {
               label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_basket),
-              label: "Cart",
+              icon: Icon(Icons.restaurant_menu),
+              label: "Menu",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: "Settings",
+              icon: Icon(Icons.favorite),
+              label: "Favorites",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart),
+              label: "Cart",
             ),
           ],
         ),
