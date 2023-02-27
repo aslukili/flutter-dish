@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dish/widgets/navbar_roots.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -10,26 +11,8 @@ class WelcomeScreen extends StatelessWidget {
         padding: EdgeInsets.all(10),
         child: Column(
           children: [
-            SizedBox(height: 15),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  // Navigator.push(context, MaterialPageRoute(
-                  //   builder: (context) =>
-                  //   ))
-                },
-                child: Text(
-                  "SKIP",
-                  style: TextStyle(
-                    color: Color(0xFF7165D6),
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
             SizedBox(
-              height: 50,
+              height: 75,
             ),
             Padding(
               padding: EdgeInsets.all(
@@ -61,9 +44,11 @@ class WelcomeScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: InkWell(
                 onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(
-                  //   builder: (context) =>
-                  //   ))
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NavBarRoots(),
+                      ));
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
