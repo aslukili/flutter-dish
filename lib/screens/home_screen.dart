@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dish/screens/meal_screen.dart';
+import 'package:flutter_dish/screens/restaurant_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   List categories = ["Tacos", "Pizza", "Lmar9a", "Meat"];
@@ -205,7 +205,7 @@ class HomeScreen extends StatelessWidget {
                 return InkWell(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MealScreen()));
+                        MaterialPageRoute(builder: (context) => RestaurantScreen()));
                   },
                   child: Container(
                     margin: EdgeInsets.all(10),
