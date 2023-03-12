@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dish/screens/home_screen.dart';
 import 'package:flutter_dish/widgets/navbar_roots.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -47,7 +48,7 @@ class WelcomeScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NavBarRoots(),
+                        builder: (context) => HomeScreen(),
                       ));
                 },
                 child: Padding(

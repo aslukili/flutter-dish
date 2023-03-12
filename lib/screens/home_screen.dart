@@ -1,268 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dish/screens/restaurant_screen.dart';
+
+import '/data/data.dart';
+import '/widgets/recent_orders.dart';
+import '/widgets/nearby_restaurants.dart';
+import '/screens/cart_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  List categories = ["Tacos", "Pizza", "Lmar9a", "Meat"];
+  const HomeScreen({Key? key}) : super(key: key);
 
-  List images = ["f1.png", "f3.png", "f4.png", "f5.png"];
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(top: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 70,
+        leading: IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.account_circle_rounded),
+        ),
+        title: const Text('Food Delivery'),
+        centerTitle: true,
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const CartScreen()),
+              );
+            },
+            child: Text(
+              'Cart(${currentUser.cart!.length})',
+              style: const TextStyle(color: Colors.white, fontSize: 20.0),
+            ),
+          )
+        ],
+      ),
+      body: ListView(
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        children: <Widget>[
           Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "hello user",
-                    style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundImage:
-                        AssetImage("assets/images/basket_of_fruits2.png"),
-                  )
-                ],
-              )),
-          SizedBox(height: 30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF7165D6),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 6,
-                        spreadRadius: 4,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          color: Color(0xFF7165D6),
-                          size: 35,
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      Text(
-                        "Choose a dish",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        "Make a reservation",
-                        style: TextStyle(color: Colors.white54),
-                      )
-                    ],
+            padding: const EdgeInsets.all(20.0),
+            child: TextField(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
+                fillColor: Colors.white,
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: const BorderSide(width: 0.8),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide(
+                    width: 0.8,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 6,
-                        spreadRadius: 4,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF0EEFA),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.home_filled,
-                          color: Color(0xFF7165D6),
-                          size: 35,
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      Text(
-                        "Home",
-                        style: TextStyle(
-                          fontSize: 18,
-                          // color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        "delivered to you!",
-                        style: TextStyle(color: Colors.black54),
-                      )
-                    ],
-                  ),
+                prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.clear, color: Colors.grey),
                 ),
+                hintText: 'Search Food or Restaurants',
               ),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 15),
-            child: Text(
-              "Categories",
-              style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black54),
             ),
           ),
-          SizedBox(
-            height: 70,
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF4F6FA),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      categories[index],
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black54),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 15),
-            child: Text(
-              "Popular meals",
-              style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black54),
-            ),
-          ),
-          GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-              ),
-              itemCount: 4,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => RestaurantScreen()));
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.symmetric(
-                      vertical: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          spreadRadius: 2,
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CircleAvatar(
-                          radius: 35,
-                          backgroundImage:
-                              AssetImage("assets/images/${images[index]}"),
-                        ),
-                        Text(
-                          "Meal name",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black54),
-                        ),
-                        Text(
-                          "Awesome",
-                          style: TextStyle(color: Colors.black45),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            Text(
-                              "4,9",
-                              style: TextStyle(color: Colors.black45),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+
+          // TODO: for Recent Orders
+          const RecentOrders(),
+
+          // TODO: for Nearby Restaurants
+          const NearbyRestaurants(),
         ],
       ),
     );
   }
 }
+
+
