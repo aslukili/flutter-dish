@@ -1,6 +1,7 @@
 import '/models/food.dart';
 
 class Restaurant {
+  final int? id;
   final String? imageUrl;
   final String? name;
   final String? address;
@@ -8,6 +9,7 @@ class Restaurant {
   final List<Food>? menu;
 
   Restaurant({
+    this.id,
     this.imageUrl,
     this.name,
     this.address,
@@ -17,6 +19,7 @@ class Restaurant {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'imageUrl': imageUrl,
       'name': name,
       'address': address,
@@ -27,6 +30,7 @@ class Restaurant {
 
   static Restaurant fromMap(Map<String, dynamic> map) {
     return Restaurant(
+      id: map['id'],
       imageUrl: map['imageUrl'],
       name: map['name'],
       address: map['address'],
@@ -39,6 +43,6 @@ class Restaurant {
 
   @override
   String toString() {
-    return 'Restaurant{imageUrl: $imageUrl, name: $name, address: $address, rating: $rating, menu: $menu}';
+    return 'Restaurant{id: $id, imageUrl: $imageUrl, name: $name, address: $address, rating: $rating, menu: $menu}';
   }
 }

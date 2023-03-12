@@ -1,32 +1,40 @@
 class Food {
-  final String? imageUrl;
-  final String? name;
-  final double? price;
+  final int id;
+  final String imageUrl;
+  final String name;
+  final double price;
+  final int restaurantId;
 
   Food({
-    this.imageUrl,
-    this.name,
-    this.price,
+    required this.id,
+    required this.imageUrl,
+    required this.name,
+    required this.price,
+    required this.restaurantId,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'imageUrl': imageUrl,
       'name': name,
       'price': price,
+      'restaurantId': restaurantId,
     };
   }
 
   static Food fromMap(Map<String, dynamic> map) {
     return Food(
+      id: map['id'],
       imageUrl: map['imageUrl'],
       name: map['name'],
       price: map['price'],
+      restaurantId: map['restaurantId'],
     );
   }
 
   @override
   String toString() {
-    return 'Food{imageUrl: $imageUrl, name: $name, price: $price}';
+    return 'Food{id: $id, imageUrl: $imageUrl, name: $name, price: $price, restaurantId: $restaurantId}';
   }
 }

@@ -52,7 +52,7 @@ class RestaurantScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              menuItem.name!,
+              menuItem.name,
               style: const TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,

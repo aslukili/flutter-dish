@@ -3,7 +3,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class RestaurantHelper {
-  static final _databaseName = 'mydatabase.db';
+  static final _databaseName = 'restaurant_database.db';
   static final _databaseVersion = 1;
 
   static final table = 'restaurants';

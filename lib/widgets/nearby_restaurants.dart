@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../helpers/food_helper.dart';
 import '../helpers/restaurant_helper.dart';
+import '../models/food.dart';
 import '/models/restaurant.dart';
 import '/screens/restaurant_screen.dart';
 import '/widgets/rating_stars.dart';
@@ -37,13 +39,23 @@ class NearbyRestaurants extends StatelessWidget {
               List<Restaurant> restaurants = snapshot.data!;
               List<Widget> restaurantList = restaurants.map((thisRestaurant) {
                 return GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     print("thisRestaurant: $thisRestaurant");
-                    if (thisRestaurant != null) {
+                    if (thisRestaurant != null && thisRestaurant.id != null) {
+                      List<Food> foods = await FoodHelper.instance
+                          .queryFoodsByRestaurantId(thisRestaurant.id!);
+                      Restaurant updatedRestaurant = Restaurant(
+                        id: thisRestaurant.id,
+                        name: thisRestaurant.name,
+                        address: thisRestaurant.address,
+                        rating: thisRestaurant.rating,
+                        imageUrl: thisRestaurant.imageUrl,
+                        menu: foods,
+                      );
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
-                              RestaurantScreen(restaurant: thisRestaurant),
+                              RestaurantScreen(restaurant: updatedRestaurant),
                         ),
                       );
                     }
