@@ -24,13 +24,15 @@ class Food {
   }
 
   static Food fromMap(Map<String, dynamic> map) {
-    return Food(
+    Food food = Food(
       id: map['id'],
       imageUrl: map['imageUrl'],
       name: map['name'],
       price: map['price'],
-      restaurantId: map['restaurantId'],
+      restaurantId: map['restaurantId'] ?? 0,
     );
+    print(food);
+    return food;
   }
 
   @override

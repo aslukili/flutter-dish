@@ -24,7 +24,7 @@ class Restaurant {
       'name': name,
       'address': address,
       'rating': rating,
-      'menu': menu?.map((food) => food.toMap())?.toList(),
+      'menu': menu?.map((food) => food.toMap()).toList(),
     };
   }
 

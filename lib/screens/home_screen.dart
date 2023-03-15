@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dish/widgets/cart_button.dart';
 
-import '/data/data.dart';
-import '/widgets/recent_orders.dart';
+import '../helpers/cart_helper.dart';
+import '../models/order.dart';
 import '/widgets/nearby_restaurants.dart';
 import '/screens/cart_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,19 +25,7 @@ class HomeScreen extends StatelessWidget {
         ),
         title: const Text('Food Delivery'),
         centerTitle: true,
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const CartScreen()),
-              );
-            },
-            child: Text(
-              'Cart(${currentUser.cart!.length})',
-              style: const TextStyle(color: Colors.white, fontSize: 20.0),
-            ),
-          )
-        ],
+        actions: [CartButton()],
       ),
       body: ListView(
         shrinkWrap: true,
@@ -67,7 +60,7 @@ class HomeScreen extends StatelessWidget {
           ),
 
           // TODO: for Recent Orders
-          const RecentOrders(),
+          // const RecentOrders(),
 
           // TODO: for Nearby Restaurants
           const NearbyRestaurants(),
@@ -75,6 +68,10 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  void navigateToCartScreen(BuildContext context, List<Order> cart) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => CartScreen(cart: cart)),
+    );
+  }
 }
-
-

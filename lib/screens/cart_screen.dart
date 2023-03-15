@@ -1,10 +1,120 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dish/models/order.dart';
 
-import '/data/data.dart';
+class CartScreen extends StatefulWidget {
+  final List<Order>? cart;
 
-class CartScreen extends StatelessWidget {
-  const CartScreen({Key? key}) : super(key: key);
+  const CartScreen({this.cart, Key? key}) : super(key: key);
+
+  @override
+  _CartScreenState createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  @override
+  Widget build(BuildContext context) {
+    // double totalPrice = 0;
+    // widget.cart!.forEach((Order thisOrder) {
+    //   totalPrice += thisOrder.quantity! * thisOrder.food!.price!;
+    // });
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 70,
+        centerTitle: true,
+        title: Text(
+          'Cart(${widget.cart!.length})',
+          style: const TextStyle(color: Colors.white, fontSize: 20.0),
+        ),
+      ),
+      body: ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          if (index < widget.cart!.length) {
+            Order order = widget.cart![index];
+            return _buildCartItem(context, order);
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 10.0,
+            ),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const <Widget>[
+                    Text(
+                      'Estimated Delivery Time:',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      '20 min',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      'Total Cost:',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      // '\$${totalPrice.toStringAsFixed(2)}',
+                      '45',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.green.shade700,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 85.0),
+              ],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) => const Divider(),
+        itemCount: widget.cart!.length + 1,
+      ),
+      bottomSheet: Container(
+        height: 80.0,
+        width: double.infinity,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          boxShadow: const <BoxShadow>[
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0, -1),
+              blurRadius: 6.0,
+            ),
+          ],
+        ),
+        child: Text(
+          'CHECKOUT',
+          style: const TextStyle(
+            fontSize: 22.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _buildCartItem(BuildContext context, Order order) {
     return Container(
@@ -20,7 +130,7 @@ class CartScreen extends StatelessWidget {
             width: 150.0,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(order.food!.imageUrl!),
+                image: AssetImage(order.food!.imageUrl),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(15.0),
@@ -34,7 +144,7 @@ class CartScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    order.food!.name!,
+                    order.food!.name,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 20.0,
@@ -43,15 +153,15 @@ class CartScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  Text(
-                    order.restaurant!.name!,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 1.2,
-                    ),
-                  ),
+                  // Text(
+                  //   order.restaurant!.name!,
+                  //   overflow: TextOverflow.ellipsis,
+                  //   style: const TextStyle(
+                  //     fontSize: 16.0,
+                  //     fontWeight: FontWeight.w600,
+                  //     letterSpacing: 1.2,
+                  //   ),
+                  // ),
                   const SizedBox(height: 8.0),
                   Container(
                     height: 30.0,
@@ -112,110 +222,6 @@ class CartScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double totalPrice = 0;
-    currentUser.cart!.forEach((Order thisOrder) {
-      totalPrice += thisOrder.quantity! * thisOrder.food!.price!;
-    });
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70,
-        centerTitle: true,
-        title: Text(
-          'Cart(${currentUser.cart!.length})',
-          style: const TextStyle(color: Colors.white, fontSize: 20.0),
-        ),
-      ),
-      body: ListView.separated(
-        physics: const BouncingScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          if (index < currentUser.cart!.length) {
-            Order order = currentUser.cart![index];
-            return _buildCartItem(context, order);
-          }
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20.0,
-              vertical: 10.0,
-            ),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const <Widget>[
-                    Text(
-                      'Estimated Delivery Time:',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      '20 min',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    const Text(
-                      'Total Cost:',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      '\$${totalPrice.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.green.shade700,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 85.0),
-              ],
-            ),
-          );
-        },
-        separatorBuilder: (context, index) => const Divider(),
-        itemCount: currentUser.cart!.length + 1,
-      ),
-      bottomSheet: Container(
-        height: 80.0,
-        width: double.infinity,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          boxShadow: const <BoxShadow>[
-            BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0, -1),
-              blurRadius: 6.0,
-            ),
-          ],
-        ),
-        child: const Text(
-          'CHECKOUT',
-          style: TextStyle(
-            fontSize: 22.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
       ),
     );
   }

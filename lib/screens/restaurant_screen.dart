@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dish/models/food.dart';
 import 'package:flutter_dish/widgets/rating_stars.dart';
 
+import '../helpers/cart_helper.dart';
+import '../models/order.dart';
 import '/models/restaurant.dart';
 
 class RestaurantScreen extends StatelessWidget {
@@ -20,7 +22,7 @@ class RestaurantScreen extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),
             image: DecorationImage(
-              image: AssetImage(menuItem.imageUrl!),
+              image: AssetImage(menuItem.imageUrl),
               fit: BoxFit.cover,
             ),
           ),
@@ -84,7 +86,18 @@ class RestaurantScreen extends StatelessWidget {
               color: Theme.of(context).primaryColor,
             ),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                final order = Order(
+                  foodId: menuItem.id,
+                  date: DateTime.now(),
+                  quantity: 1,
+                );
+                final orderHelper = CartHelper.instance;
+                await orderHelper.insert(order);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Order added successfully')),
+                );
+              },
               icon: const Icon(
                 Icons.add,
                 color: Colors.white,
@@ -100,7 +113,7 @@ class RestaurantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    
+
     return Scaffold(
       body: Column(
         children: [

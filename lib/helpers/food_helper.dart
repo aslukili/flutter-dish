@@ -110,4 +110,26 @@ class FoodHelper {
       );
     });
   }
+
+  Future<List<Food>> getAllFoods() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('foods');
+    return List.generate(maps.length, (i) {
+      return Food.fromMap(maps[i]);
+    });
+  }
+
+  Future<Food?> getFood(int id) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      table,
+      where: '$columnId = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
+    if (maps.isNotEmpty) {
+      return Food.fromMap(maps.first);
+    }
+    return null;
+  }
 }
