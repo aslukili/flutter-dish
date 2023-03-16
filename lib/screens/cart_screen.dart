@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dish/models/order.dart';
 
+import '../helpers/cart_helper.dart';
+import '../helpers/ordered_helper.dart';
+import '../models/ordered.dart';
+import 'home_screen.dart';
+
 class CartScreen extends StatefulWidget {
   final List<Order>? cart;
 
@@ -11,6 +16,14 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  List<Order>? _cart;
+
+  @override
+  void initState() {
+    super.initState();
+    _cart = widget.cart;
+  }
+
   @override
   Widget build(BuildContext context) {
     // double totalPrice = 0;
@@ -19,6 +32,7 @@ class _CartScreenState extends State<CartScreen> {
     // });
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.amber,
         toolbarHeight: 70,
         centerTitle: true,
         title: Text(
@@ -104,12 +118,51 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ],
         ),
-        child: Text(
-          'CHECKOUT',
-          style: const TextStyle(
-            fontSize: 22.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+        child: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.amber),
+            // You can also set other properties such as text color, padding, etc.
+          ),
+          onPressed: () async {
+            // Delete all items from the cart
+
+            await CartHelper.instance.deleteAll();
+            for (var item in _cart!) {
+              Ordered order = Ordered(
+                  foodId: item.foodId, date: DateTime.now(), quantity: 1);
+              await OrderedHelper.instance.insert(order);
+            }
+            // Show success message popup
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Success'),
+                  content: Text('Your checkout was successful.'),
+                  actions: [
+                    TextButton(
+                      child: Text('OK'),
+                      onPressed: () {
+                        // Navigate to the home screen and remove all the previous routes
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          (route) => false,
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          child: Text(
+            'CHECKOUT',
+            style: const TextStyle(
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ),
       ),

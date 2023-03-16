@@ -1,27 +1,28 @@
 import 'dart:async';
+import 'package:flutter_dish/models/ordered.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../models/food.dart';
 import '../models/order.dart';
 import 'food_helper.dart';
 
-class CartHelper {
-  static final _databaseName = 'cart_database.db';
+class OrderedHelper {
+  static final _databaseName = 'ordered_database.db';
   static final _databaseVersion = 1;
 
-  static final table = 'orders';
+  static final table = 'ordered';
   static final columnId = 'id';
   static final columnFoodId = 'foodId';
   static final columnDate = 'date';
   static final columnQuantity = 'quantity';
 
   static Database? _database;
-  static final CartHelper instance = CartHelper._privateConstructor();
+  static final OrderedHelper instance = OrderedHelper._privateConstructor();
 
-  CartHelper._privateConstructor();
+  OrderedHelper._privateConstructor();
 
-  static Future<CartHelper> create() async {
-    CartHelper helper = CartHelper._privateConstructor();
+  static Future<OrderedHelper> create() async {
+    OrderedHelper helper = OrderedHelper._privateConstructor();
     await helper._initDatabase();
     return helper;
   }
@@ -49,30 +50,20 @@ class CartHelper {
       ''');
   }
 
-  Future<int> insert(Order order) async {
+  Future<int> insert(Ordered order) async {
     Database db = await instance.database;
     return await db.insert(table, order.toMap());
   }
 
-  Future<List<Order>> queryAllRows() async {
+  Future<List<Ordered>> queryAllRows() async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db.query(table);
-    List<Order> orders = [];
+    List<Ordered> orders = [];
     for (Map<String, dynamic> map in maps) {
       int foodId = map[columnFoodId];
       Food? food = await FoodHelper.instance.getFood(foodId);
-      orders.add(Order.fromMap(map, food!));
+      orders.add(Ordered.fromMap(map, food!));
     }
     return orders;
-  }
-
-  Future<int> delete(int id) async {
-    Database db = await instance.database;
-    return await db.delete(table, where: '$columnId = ?', whereArgs: [id]);
-  }
-
-  Future<void> deleteAll() async {
-    Database db = await instance.database;
-    await db.delete(table);
   }
 }

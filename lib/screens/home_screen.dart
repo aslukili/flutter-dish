@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dish/screens/profile_screen.dart';
 import 'package:flutter_dish/widgets/cart_button.dart';
 
-import '../helpers/cart_helper.dart';
+import '../helpers/ordered_helper.dart';
 import '../models/order.dart';
 import '/widgets/nearby_restaurants.dart';
 import '/screens/cart_screen.dart';
@@ -18,9 +19,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.amber,
         toolbarHeight: 70,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () async {
+            final orders = await OrderedHelper.instance.queryAllRows();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => ProfileScreen(orders: orders)),
+            );
+          },
           icon: const Icon(Icons.account_circle_rounded),
         ),
         title: const Text('Food Delivery'),
